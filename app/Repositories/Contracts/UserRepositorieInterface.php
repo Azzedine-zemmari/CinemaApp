@@ -3,7 +3,6 @@
 namespace App\Repositories\Contracts;
 
 interface UserRepositorieInterface{
-    public function all();
-    public function register(array $data);
-    public function login(array $data);
+    public function create(array $data);
+    public function findByEmail(string $email);
 }

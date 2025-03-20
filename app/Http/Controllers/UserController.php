@@ -2,21 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\AuthService;
 use Illuminate\Http\Request;
-use App\Repositories\Contracts\UserRepositorieInterface;
 
 class UserController extends Controller
 {
-    private $userRepository;
+    private $authService;
 
-    public function __construct(UserRepositorieInterface $userRepository)
+    public function __construct(AuthService $authService)
     {
-        $this->userRepository = $userRepository;
-    }
-
-    public function showUsers(){
-        $users = $this->userRepository->all();
-        return $users;
+        $this->authService = $authService;
     }
     public function register(Request $request){
         $fields = $request->validate([
@@ -25,13 +20,9 @@ class UserController extends Controller
             'password' => 'required|min:6'
         ]);
 
-        $result = $this->userRepository->register($fields);
+        $result = $this->authService->register($fields);
 
-        return response()->json([
-            'message'=>'user registred successfully',
-            'user' => $result['user'],
-            'token'=>$result['token']
-        ],201);
+        return response()->json($result,201);
     }
 
     public function login(Request $request){
@@ -40,9 +31,9 @@ class UserController extends Controller
             'password' => 'required|min:6'
         ]);
 
-        $result = $this->userRepository->login($fields);
+        $result = $this->authService->login($fields);
 
         return response()->json([$result]);
     }
-    
+
 }
