@@ -33,4 +33,16 @@ class UserController extends Controller
             'token'=>$result['token']
         ],201);
     }
+
+    public function login(Request $request){
+        $fields = $request->validate([
+            'email' => 'required|max:100',
+            'password' => 'required|min:6'
+        ]);
+
+        $result = $this->userRepository->login($fields);
+
+        return response()->json([$result]);
+    }
+    
 }

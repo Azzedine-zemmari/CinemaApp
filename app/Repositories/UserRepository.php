@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Repositories\Contracts\UserRepositorieInterface;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
-
+use Tymon\JWTAuth\JWT;
 
 class UserRepository implements UserRepositorieInterface{
     public function all(){
@@ -27,5 +27,19 @@ class UserRepository implements UserRepositorieInterface{
             'user'=>$user,
             'token'=>$token
         ];
+    }
+    public function login(array $data){
+        $user = User::where('email',$data['email'])->first();
+
+    if(!$user || !Hash::check($data['password'],$user->password)){
+        return null;
+    }
+
+    $token = JWTAuth::fromUser($user);
+
+    return [
+        'user'=>$user,
+        'token'=>$token
+    ];
     }
 }
