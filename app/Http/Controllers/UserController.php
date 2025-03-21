@@ -36,4 +36,16 @@ class UserController extends Controller
         return response()->json([$result]);
     }
 
+    public function update(Request $request , $id){
+        $data = $request->validate([
+            'name' => 'required|max:10',
+            'email' => 'required|max:100'
+        ]);
+
+        $user = $this->authService->modifierUser($id,$data);
+
+        if($user){
+            return response()->json(['message'=>'ok',$user]);
+        }
+    }
 }

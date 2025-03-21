@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\User;
 use App\Repositories\Contracts\UserRepositorieInterface;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Hash;
@@ -32,9 +31,6 @@ class AuthService{
     }
     public function login(array $data){
         $user = $this->userRepository->findByEmail($data['email']);
-        if (!$user || !Hash::check($data['password'], $user->password)) {
-            return null; // Invalid credentials
-        }
 
         // Generate a JWT token for the authenticated user
         $token = JWTAuth::fromUser($user);
@@ -43,5 +39,14 @@ class AuthService{
             'user' => $user,
             'token' => $token,
         ];
+    }
+    public function modifierUser(int $id,array $data){
+        $user = $this->userRepository->findById($id);
+
+        if(!$user){
+            return null;
+        }
+        
+        return $this->userRepository->update($id,$data);
     }
 }
