@@ -27,6 +27,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('/updateProfile/{id}',[UserController::class,'update']);
     Route::delete('/deleteProfile/{id}',[UserController::class,'deleteUser']);
     Route::post('/createFilm',[FilmController::class,'addFilm']);
+    Route::post('/updateFilm/{id}',[FilmController::class,'updateFilm']);
 });
 
 

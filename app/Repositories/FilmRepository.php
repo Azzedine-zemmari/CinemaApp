@@ -17,4 +17,13 @@ class FilmRepository implements FilmRepositorieInterface{
             'genre' => $data['genre']
        ]);
     }
+    public function update(int $id, array $data)
+    {
+        $film = Film::find($id);
+        if(!$film){
+            return false;
+        }
+        $film->update($data);
+        return $film;
+    }
 }
