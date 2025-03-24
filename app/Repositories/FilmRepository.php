@@ -26,4 +26,13 @@ class FilmRepository implements FilmRepositorieInterface{
         $film->update($data);
         return $film;
     }
+    public function delete(int $id){
+        $film = Film::find($id);
+
+        if(!$film){
+            return false;
+        }
+        $film->delete();
+        return $film;
+    }
 }

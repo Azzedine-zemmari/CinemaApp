@@ -47,4 +47,13 @@ class FilmController extends Controller
     
         return response()->json(['message' => 'Film updated successfully', 'result' => $result]);
     }
+    public function deleteFilm($id){
+        $result = $this->filmRepository->delete($id);
+        if(!$result){
+            return response()->json(['message' => 'Film not found or delete failed'], 404);
+        }
+        return response()->json(['message' => 'Film deleted successfully', 'result' => $result]);
+
+        
+    }
 }
