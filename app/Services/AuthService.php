@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Repositories\Contracts\UserRepositorieInterface;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AuthService{
     protected $userRepository;
@@ -18,19 +19,23 @@ class AuthService{
         $user = $this->userRepository->create([
             'name' => $data['name'],
             'email'=> $data['email'],
-            'password' => Hash::make($data['password'])]
-        );
+            'password' => Hash::make($data['password']) 
+        ]);
+    
 
         $token = JWTAuth::fromUser($user);
 
-
-        return [
-            'user'=>$user,
-            'token'=>$token
-        ];
+        return response()->json([
+            'user' => $user,
+            'token' => $token
+        ], 201);
     }
     public function login(array $data){
         $user = $this->userRepository->findByEmail($data['email']);
+
+        if (!$user) {
+            return response()->json(['error' => 'Invalid credentials'], 401);
+        }
 
         // Generate a JWT token for the authenticated user
         $token = JWTAuth::fromUser($user);
@@ -46,7 +51,16 @@ class AuthService{
         if(!$user){
             return null;
         }
-        
         return $this->userRepository->update($id,$data);
     }
+    public function deleteUser(int $id){
+        
+        if($this->userRepository->delete($id)){
+            return ['success' => true, 'message' => 'User deleted successfully'];   
+        }
+        else{
+            return ['success' => false, 'message' => 'Failed to delete user'];
+        }
+    }
+
 }

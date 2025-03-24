@@ -24,4 +24,5 @@ Route::post('/login', [UserController::class, 'login']);
 
 Route::group(['middleware', ['auth:api']], function(){
     Route::post('/updateProfile/{id}',[UserController::class,'update']);
+    Route::delete('/deleteProfile/{id}',[UserController::class,'deleteUser']);
 });

@@ -48,4 +48,14 @@ class UserController extends Controller
             return response()->json(['message'=>'ok',$user]);
         }
     }
+    public function deleteUser(int $id)
+    {
+        $result = $this->authService->deleteUser($id);
+        
+        if ($result['success']) {
+            return response()->json(['message' => $result['message']], 200);
+        } else {
+            return response()->json(['message' => $result['message']], 400);
+        }
+    }
 }

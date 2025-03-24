@@ -29,11 +29,29 @@ class UserRepository implements UserRepositorieInterface{
     public function update(int $id, array $data)
     {
         $user = $this->findById($id);
-    
+        
         if($user || $user->id === Auth::id()){
             $user->update($data);
             return $user;
         }
         return null;
+    }
+    public function delete(int $id)
+    {
+        $user = $this->findById($id);
+        if(!$user){
+            return false;
+        }
+
+        if(Auth::id() !== $user->id){
+            return false;
+        }
+
+        try {
+            $user->delete();
+            return true; // Deletion successful
+        } catch (\Exception $e) {
+            return false; // Deletion failed
+        }
     }
 }
