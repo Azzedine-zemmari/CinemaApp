@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FilmController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -25,6 +26,7 @@ Route::post('/login', [UserController::class, 'login']);
 Route::group(['middleware' => 'auth:api'], function(){
     Route::post('/updateProfile/{id}',[UserController::class,'update']);
     Route::delete('/deleteProfile/{id}',[UserController::class,'deleteUser']);
+    Route::post('/createFilm',[FilmController::class,'addFilm']);
 });
 
 
