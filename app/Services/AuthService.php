@@ -22,14 +22,14 @@ class AuthService{
             'password' => Hash::make($data['password']) 
         ]);
     
-
         $token = JWTAuth::fromUser($user);
-
+    
         return response()->json([
             'user' => $user,
             'token' => $token
         ], 201);
     }
+    
     public function login(array $data){
         $user = $this->userRepository->findByEmail($data['email']);
 
@@ -53,14 +53,24 @@ class AuthService{
         }
         return $this->userRepository->update($id,$data);
     }
-    public function deleteUser(int $id){
+    public function deleteUser(int $id)
+    {
+        $user = $this->userRepository->findById($id);
         
-        if($this->userRepository->delete($id)){
-            return ['success' => true, 'message' => 'User deleted successfully'];   
+        if (!$user) {
+            return ['success' => false, 'message' => 'User not found'];
         }
-        else{
-            return ['success' => false, 'message' => 'Failed to delete user'];
+        
+        if (auth()->id() !== $user->id) {
+            return ['success' => false, 'message' => 'You can only delete your own account'];
         }
+        
+        if ($this->userRepository->delete($id)) {
+            return ['success' => true, 'message' => 'User deleted successfully'];
+        }
+        
+        return ['success' => false, 'message' => 'Failed to delete user'];
     }
+    
 
 }

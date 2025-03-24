@@ -16,13 +16,22 @@ use Illuminate\Contracts\Auth\UserProvider;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 
-Route::group(['middleware', ['auth:api']], function(){
+Route::group(['middleware' => 'auth:api'], function(){
     Route::post('/updateProfile/{id}',[UserController::class,'update']);
     Route::delete('/deleteProfile/{id}',[UserController::class,'deleteUser']);
+});
+
+
+Route::get('/h' ,function(Request $request){
+    return "hello";
+});
+
+Route::middleware('auth:api')->get('/protected-route', function(Request $request) {
+    return response()->json(['message' => 'This route is protected']);
 });

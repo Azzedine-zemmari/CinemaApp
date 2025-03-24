@@ -24,7 +24,7 @@ class UserRepository implements UserRepositorieInterface{
     }
     public function findById(int $id)
     {
-        return User::find($id);
+        return User::findOrFail($id);
     }
     public function update(int $id, array $data)
     {
@@ -36,22 +36,25 @@ class UserRepository implements UserRepositorieInterface{
         }
         return null;
     }
-    public function delete(int $id)
-    {
-        $user = $this->findById($id);
-        if(!$user){
-            return false;
-        }
-
-        if(Auth::id() !== $user->id){
-            return false;
-        }
-
+public function delete(int $id)
+{
+    $user = $this->findById($id);
+    
+    if (!$user) {
+        return false; // User not found
+    }
+    
+    // Only allow deletion if the logged-in user is the same as the user to be deleted
+    if (auth()->id() === $user->id) { 
         try {
             $user->delete();
-            return true; // Deletion successful
+            return true;
         } catch (\Exception $e) {
-            return false; // Deletion failed
+            return false;
         }
     }
+    
+    return false; // Not authorized to delete
+}
+    
 }
