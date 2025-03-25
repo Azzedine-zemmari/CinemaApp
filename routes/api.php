@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FilmController;
+use App\Http\Controllers\SalleController;
 use App\Http\Controllers\SessionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 });
 Route::get('/sessions/{type}',[SessionController::class,'filterByType']);
 Route::get('/films',[SessionController::class,'showAll']);
+Route::post('/configureSalle',[SalleController::class,'configureSalle']);
 
 
 Route::middleware('auth:api')->get('/protected-route', function(Request $request) {
