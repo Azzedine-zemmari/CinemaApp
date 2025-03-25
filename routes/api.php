@@ -33,6 +33,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('/filmtosession',[SessionController::class,'AddFilmTs']);
 });
 Route::get('/sessions/{type}',[SessionController::class,'filterByType']);
+Route::get('/films',[SessionController::class,'showAll']);
 
 
 Route::middleware('auth:api')->get('/protected-route', function(Request $request) {

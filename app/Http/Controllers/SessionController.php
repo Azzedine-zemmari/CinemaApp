@@ -40,4 +40,13 @@ class SessionController extends Controller
             return response()->json(['messag'=>'error']);
         }
         }
+        public function showAll(){
+            $result = $this->sessionRepository->showdata();
+            if($result){
+                return response()->json(['message'=>'ok','result',$result]);
+            }
+            else{
+                return response()->json(['message'=>'error']);
+            }
+        }
 }
