@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FilmController;
+use App\Http\Controllers\SessionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -29,12 +30,9 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('/createFilm',[FilmController::class,'addFilm']);
     Route::post('/updateFilm/{id}',[FilmController::class,'updateFilm']);
     Route::delete('/deleteFilm/{id}',[FilmController::class,'deleteFilm']);
+    Route::post('/filmtosession',[SessionController::class,'AddFilmTs']);
 });
 
-
-Route::get('/h' ,function(Request $request){
-    return "hello";
-});
 
 Route::middleware('auth:api')->get('/protected-route', function(Request $request) {
     return response()->json(['message' => 'This route is protected']);

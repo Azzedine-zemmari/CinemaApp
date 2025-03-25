@@ -54,6 +54,5 @@ class FilmController extends Controller
         }
         return response()->json(['message' => 'Film deleted successfully', 'result' => $result]);
 
-        
     }
 }
