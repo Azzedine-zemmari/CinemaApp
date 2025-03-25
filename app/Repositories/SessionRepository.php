@@ -16,4 +16,8 @@ class SessionRepository implements SessionRepositorieInterface{
             'type' => $data['type']
         ]);
     }
+    public function findBytype(string $type)
+    {
+        return Session::where('type',$type)->get();
+    }
 }

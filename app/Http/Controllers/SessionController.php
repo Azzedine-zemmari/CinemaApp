@@ -31,4 +31,13 @@ class SessionController extends Controller
             return response()->json(['message'=>'error','result'=>$result]);
         }
     }
+    public function filterByType(Request $request,$type){
+        $result = $this->sessionRepository->findBytype($type);
+        if($result){
+            return response()->json(['message'=>'ok','result'=>$result]);
+        }
+        else{
+            return response()->json(['messag'=>'error']);
+        }
+        }
 }

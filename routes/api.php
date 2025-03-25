@@ -32,6 +32,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::delete('/deleteFilm/{id}',[FilmController::class,'deleteFilm']);
     Route::post('/filmtosession',[SessionController::class,'AddFilmTs']);
 });
+Route::get('/sessions/{type}',[SessionController::class,'filterByType']);
 
 
 Route::middleware('auth:api')->get('/protected-route', function(Request $request) {
