@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FilmController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\SalleController;
 use App\Http\Controllers\SessionController;
 use Illuminate\Http\Request;
@@ -32,6 +33,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('/updateFilm/{id}',[FilmController::class,'updateFilm']);
     Route::delete('/deleteFilm/{id}',[FilmController::class,'deleteFilm']);
     Route::post('/filmtosession',[SessionController::class,'AddFilmTs']);
+    Route::post('/reservation/{sessionId}/{seatId}',[ReservationController::class,'reserveAseat']);
 });
 Route::get('/sessions/{type}',[SessionController::class,'filterByType']);
 Route::get('/films',[SessionController::class,'showAll']);

@@ -14,7 +14,8 @@ class SessionRepository implements SessionRepositorieInterface{
             'filmId' => $data['filmId'],
             'start_date' => $data['start_date'],
             'end_date' => $data['end_date'],
-            'type' => $data['type']
+            'type' => $data['type'],
+            'salleId' => $data['salleId']
         ]);
     }
     public function findBytype(string $type)

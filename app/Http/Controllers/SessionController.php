@@ -19,7 +19,8 @@ class SessionController extends Controller
             'filmId' => 'required|exists:films,id',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
-            'type' => 'required'
+            'type' => 'required',
+            'salleId' => 'required|exists:salles,id'
         ]);
 
         $result = $this->sessionRepository->create($fields);
