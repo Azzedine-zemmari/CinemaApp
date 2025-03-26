@@ -172,6 +172,7 @@ return [
         App\Providers\FilmServiceProvider::class,
         App\Providers\SalleProvider::class,
         App\Providers\reservationProvider::class,
+        App\Providers\seatProvider::class
     ])->toArray(),
 
     /*
