@@ -12,4 +12,10 @@ class salle extends Model
         'nom',
         'type'
     ];
+    public function seats(){
+        return $this->hasMany(Seat::class);
+    }
+    public function session(){
+        return $this->hasMany(Session::class);
+    }
 }

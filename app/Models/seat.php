@@ -13,4 +13,7 @@ class seat extends Model
         'status',
         'salleId'
     ];
+    public function salle(){
+        return $this->belongsTo(salle::class);
+    }
 }

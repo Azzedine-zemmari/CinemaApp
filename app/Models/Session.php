@@ -15,4 +15,8 @@ class Session extends Model
         'type',
         'salleId'
     ];
+
+    public function salle(){
+        return $this->belongsTo(salle::class);
+    }
 }
