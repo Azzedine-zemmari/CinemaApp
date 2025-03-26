@@ -35,6 +35,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::delete('/deleteFilm/{id}',[FilmController::class,'deleteFilm']);
     Route::post('/filmtosession',[SessionController::class,'AddFilmTs']);
     Route::post('/reservation/{sessionId}/{seatId}',[ReservationController::class,'reserveAseat']);
+    Route::post('/reserveVipSeat/{sessionId}/{seatId}',[ReservationController::class,'reserveVipSeat']);
     Route::post('/createSeat/{salleId}/{numOfSeats}',[SeatController::class,'createseats']);
 });
 Route::get('/sessions/{type}',[SessionController::class,'filterByType']);

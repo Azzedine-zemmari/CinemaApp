@@ -69,4 +69,76 @@ class ReservationController extends Controller
             return response()->json(['message'=>'error']);
         }
     }
+    public function reserveVipSeat(Request $request, int $sessionId, int $seatId)
+{
+    // Check if the session exists
+    $session = DB::table('sessions')->where('id', $sessionId)->first();
+    if (!$session) {
+        return response()->json(['message' => 'Session not found'], 404);
+    }
+
+    // Find the room associated with this session
+    $salle = DB::table('sessions')->where('id', $sessionId)->value('salleId');
+    if (!$salle) {
+        return response()->json(['message' => 'Salle not found'], 404);
+    }
+
+    // Check if the selected seat exists and belongs to the salle
+    $seat = DB::table('seats')
+        ->where('id', $seatId)
+        ->where('salleId', $salle)
+        ->first();
+
+    if (!$seat) {
+        return response()->json(['message' => 'This seat does not belong to the room of the session'], 400);
+    }
+
+    // Find the adjacent seat
+    $adjacentSeat = DB::table('seats')
+        ->where('salleId', $salle)
+        ->where('num', $seat->num + 1) // Assuming adjacent seat is the next number
+        ->first();
+
+    if (!$adjacentSeat) {
+        return response()->json(['message' => 'No adjacent seat found for VIP booking'], 400);
+    }
+
+    // Check if either seat is already reserved
+    $isReserved = DB::table('reservations')
+        ->where('sessionId', $sessionId)
+        ->whereIn('seatsId', [$seatId, $adjacentSeat->id])
+        ->exists();
+
+    if ($isReserved) {
+        return response()->json(['message' => 'One or both seats are already reserved'], 400);
+    }
+
+    // Reserve both seats
+    $reservationData = [
+        [
+            'userId' => Auth::id(),
+            'seatsId' => $seatId,
+            'sessionId' => $sessionId,
+            'status' => true,
+            'created_at' => now(),
+            'updated_at' => now()
+        ],
+        [
+            'userId' => Auth::id(),
+            'seatsId' => $adjacentSeat->id,
+            'sessionId' => $sessionId,
+            'status' => true,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]
+    ];
+
+    DB::table('reservations')->insert($reservationData);
+
+    return response()->json([
+        'message' => 'VIP seats reserved successfully',
+        'seats_reserved' => [$seatId, $adjacentSeat->id]
+    ]);
+}
+
 }
