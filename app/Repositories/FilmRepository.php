@@ -35,4 +35,7 @@ class FilmRepository implements FilmRepositorieInterface{
         $film->delete();
         return $film;
     }
+    public function countTotalFilms(){
+        return film::count();
+    }
 }

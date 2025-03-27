@@ -6,4 +6,5 @@ interface SessionRepositorieInterface{
     public function create(array $data);
     public function findBytype(string $type);
     public function showdata();
+    public function countTotalSession();
 }

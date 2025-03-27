@@ -29,4 +29,8 @@ class SessionRepository implements SessionRepositorieInterface{
         ->select('*')
         ->get();
     }
+    public function countTotalSession()
+    {
+        return Session::count();
+    }
 }

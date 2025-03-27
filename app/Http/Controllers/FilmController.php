@@ -55,4 +55,8 @@ class FilmController extends Controller
         return response()->json(['message' => 'Film deleted successfully', 'result' => $result]);
 
     }
+    public function getTotalFilms(){
+        $result = $this->filmRepository->countTotalFilms();
+        return response()->json(['message'=>'ok','result'=>$result]);
+    }
 }

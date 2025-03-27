@@ -140,5 +140,8 @@ class ReservationController extends Controller
         'seats_reserved' => [$seatId, $adjacentSeat->id]
     ]);
 }
-
+public function countReservation(){
+    $result = $this->reservationRepository->countRerservation();
+    return response()->json(['message'=>'ok','result'=>$result]);
+}
 }

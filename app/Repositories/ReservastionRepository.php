@@ -11,4 +11,7 @@ class ReservastionRepository implements ReservationRepositorieInterface{
     {
         return DB::table('reservations')->insert($data);
     }
+    public function countRerservation(){
+        return reservation::count();
+    }
 }

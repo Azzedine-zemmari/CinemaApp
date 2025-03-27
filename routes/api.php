@@ -8,6 +8,7 @@ use App\Http\Controllers\SessionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Models\Session;
 use Illuminate\Contracts\Auth\UserProvider;
 
 /*
@@ -38,6 +39,9 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('/reserveVipSeat/{sessionId}/{seatId}',[ReservationController::class,'reserveVipSeat']);
     Route::post('/createSeat/{salleId}/{numOfSeats}',[SeatController::class,'createseats']);
 });
+Route::get('/filmCount',[FilmController::class,'getTotalFilms']);
+Route::get('/sessionCount',[SessionController::class,'countAllSession']);
+Route::get('/reservationCount',[ReservationController::class,'countReservation']);
 Route::get('/sessions/{type}',[SessionController::class,'filterByType']);
 Route::get('/films',[SessionController::class,'showAll']);
 Route::post('/configureSalle',[SalleController::class,'configureSalle']);

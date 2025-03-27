@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\SessionRepository;
 use Illuminate\Support\Facades\Redis;
+use Symfony\Component\HttpFoundation\Test\Constraint\ResponseStatusCodeSame;
 
 class SessionController extends Controller
 {
@@ -49,5 +50,9 @@ class SessionController extends Controller
             else{
                 return response()->json(['message'=>'error']);
             }
+        }
+        public function countAllSession(){
+            $result = $this->sessionRepository->countTotalSession();
+            return response()->json(['message'=>'ok','result'=>$result]);
         }
 }
